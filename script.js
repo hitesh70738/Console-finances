@@ -88,28 +88,15 @@ var finances = [
     ['Feb-2017', 671099],
   ];
   
-// var totalMonths = finances.filter((finances) <= finances.length <=3)
-
-// console.log(totalMonths)
-
-// var a = finances[Math.floor(Math.random() * 3)]
-// console.log(a)
-
-// console.log(finances[1][0] + finances[0][0])
-console.log('Finanacial Analysis')
-
-// total number of months included in the dataseT
-console.log('Total Moths: '+ finances.length)
 
 // net total amount of Profit/Losses over the entire period
-var sum = 0
+var total = 0
 
 for (var i = 0; i < finances.length; i++) {
     // console.log(finances[i][1])
-    sum+= finances[i][1]
+    total+= finances[i][1]
     
 }
-console.log('Toal: ' + sum)
 
 // Aaverage of changes
 var sum = 0
@@ -119,8 +106,48 @@ for (var i = 0; i < finances.length - 1; i++) {
     sum += finances[i+1][1] - finances[i][1];
     
 }
-console.log('Average change: ' + (sum/85))
 
 
+// Greater change
 
+var difference = 0
+var months = 0
 
+for (var i = 0; i < finances.length - 1; i++){
+    if (finances[i+1][1] - finances[i][1] > difference) {
+       difference = finances[i+1][1] - finances[i][1];
+       months = i + 1
+    }
+    
+}
+
+// less change
+
+var loss = 10000000000000
+var month = 0
+
+for (var i = 0; i < finances.length - 1; i++){
+
+    if (finances[i+1][1] - finances[i][1] < loss) {
+       loss = finances[i+1][1] - finances[i][1];
+       month = i + 1
+    }
+    
+}
+
+//currency variable
+
+var dollar = new Intl.NumberFormat ( 'en-us', {
+    style: 'currency',
+    currency: 'USD',
+}
+)
+
+console.log(`Finanacial Analysis
+-----------------------------------
+Total Months: ${finances.length}
+Total: ${dollar.format(total)}
+Average change: ${(sum/85).toFixed(2)}
+Greatest Increase in Profits/Losses: ${finances[months][0]} ${dollar.format(difference)}
+Greatest loss in Profits/Losses: ${finances[month][0]} ${dollar.format(loss)}
+`)
